@@ -1,0 +1,50 @@
+spring:
+
+fileIO microservice:
+
+	- reading excel files using spring batch
+	- downloadEvent(Event event) //for writing the event data into a excel and making it to download by admin/PMO
+	- downloadEventReport(EventReport eventReport) //for writing the event report data into a excel and making it to download by admin/PMO
+
+authentication microservice:
+
+	- Get method : hashMap<userDetails(with token)> authenticate(@RequestHeader(value="Authorization") String authHeader) // use to check the userDetails. if correct returns the generated token else throws UnAuthorized error.
+		url: /authentication
+	- generateToken(String username) // to generate the token
+	
+
+EventsandDashboard microservice :
+
+	- Get method : DashBoard dashboard() // sends the data required for the dashboard page by fetching details from the database.
+		url: /dashboard
+	- Get method : Events[] getAllEvents() // returning all the events details
+		url: /events
+	- Get method : Events getEventsById(String eventid) // returning event details based on the given id.
+		url: /events/{eventId}
+	- Get method : ParticipatedDetails participated() // return  particular event id participated details
+		url: /events/participated
+	- Get method : NonParticipants nonparticipants()
+		url: /events/nonparticipated 
+	- Post method : Events[] getEvents(@RequestBody Events events) // get the events list based on the filter details
+		url: /events
+
+Report microservice:
+ 
+	- Get method : Reports[] getAllReport() // returns the entire events list along with statistics and poc details	
+		url: /reports
+	- Post method : Reports[] getByFilter(@RequestBody Reports reports) // returns the events list based on the filter
+		url: /reports
+
+Question microservice :
+
+	- Get method : Question[] getAllQuestions // returns all the questions
+		url: /questions
+	- Get method : Question getByQuestionId(int id) // return particular id based on the qid
+		url: /questions/{id}
+	- Put method : updateQuestion(@RequestBody Question question) // editing particular question
+		url: /questions
+	- Post method : addQuestion(@RequestBody Question question) // adding question and storing in database
+		url: /questions
+
+Email microservice,eureka,zuul
+	
