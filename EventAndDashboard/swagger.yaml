@@ -1,0 +1,318 @@
+swagger: '2.0'
+info:
+  description: EventsAndDashboard
+  version: '1.0'
+  title: EventsAndDashboard
+tags:
+  - name: EventsAndDashboard
+    description: EventsAndDashboard
+paths:
+  /event:
+    post:
+      tags:
+        - EventsAndDashboard
+      summary: To add the event
+      description: Put the Event details in the body
+      operationId: addEvent
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: event
+          required: true
+          schema:
+            $ref: '#/definitions/Event'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Event'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    get:
+      tags:
+        - EventsAndDashboard
+      summary: Provide all the events
+      description: All the events are fetched
+      operationId: getAllEvents
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Event'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false  
+    put:
+      tags:
+        - EventsAndDashboard
+      summary: To update the event details
+      description: Put the updated event details in the body
+      operationId: editEventUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: event
+          required: true
+          schema:
+            $ref: '#/definitions/Event'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Event'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false  
+  /dashboard:
+    get:
+      tags:
+        - EventsAndDashboard
+      summary: Dashboard details
+      description: Fetch the details for the dashboard page
+      operationId: getDashboardDetails
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Dashboard'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/event/nonparticipated/{eventId}':
+    get:
+      tags:
+        - EventsAndDashboard
+      summary: NonParticipated details
+      description: Fetch the details for the event page
+      operationId: getNonParticipatedDetails
+      produces:
+        - '*/*'
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/NonParticipated'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/event/unregistered/{eventId}':
+    get:
+      tags:
+        - EventsAndDashboard
+      summary: UnRegistered details
+      description: Fetch the details for the event page
+      operationId: getUnregisteredDetails
+      produces:
+        - '*/*'
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Unregistered'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  '/event/{eventId}':
+    get:
+      tags:
+        - EventsAndDashboard
+      summary: Find the event by id
+      description: Provide an id to look up for specific event
+      operationId: getEventById
+      produces:
+        - '*/*'
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Event'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - EventsAndDashboard
+      summary: 'Delete the event '
+      description: Provide the event id to deleted
+      operationId: deleteEvent
+      produces:
+        - '*/*'
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          # schema:
+          #   type: array
+            # items:
+            #   $ref: '#/definitions/AnnotationDescription'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      deprecated: false  
+definitions:
+  Dashboard:
+    type: object
+    properties:
+      details:
+        type: string
+    title: DashboardDetails
+  NonParticipated:
+    type: object
+    properties:
+      event_id:
+        type: integer
+        format: int32
+      event_name:
+        type: string
+      bname:
+        type: string
+      base_location:
+        type: string
+      event_date:
+        type: string
+        format: date
+      empid:
+        type : string
+    title: DashboardDetails
+  Unregistered:
+    type: object
+    properties:
+      event_id:
+        type: integer
+        format: int32
+      event_name:
+        type: string
+      bname:
+        type: string
+      base_location:
+        type: string
+      event_date:
+        type: string
+        format: date
+      empid:
+        type : string
+    title: DashboardDetails
+  Event:
+    type: object
+    properties:
+      base_location:
+        type: string
+      event_date:
+        type: string
+        format: date
+      event_id:
+        type: integer
+        format: int32
+      event_name:
+        type: string
+      event_status:
+        type: string
+      total_travel_hour:
+        type: integer
+        format: int32
+      total_volunteer_hour:
+        type: integer
+        format: int32
+      total_volunteers:
+        type: integer
+        format: int32
+      venue_address:
+        type: string
+      rating:
+        type: integer
+      likes:
+        type: string
+      dislikes:
+        type: string
+      avgrating:
+        type: integer
+      volunteers:
+        type: integer
+      ovlhrs:
+        type: string
+      lives_impacted:
+        type: integer
+      pocid:
+        type: string
+      pocname:
+        type: string
+      pocnumber:
+        type: string
+      month:
+        type: string
+      council_name:
+        type: string
+      bname:
+        type: string
+    title: Event
