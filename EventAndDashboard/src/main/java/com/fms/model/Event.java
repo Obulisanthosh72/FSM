@@ -2,10 +2,14 @@ package com.fms.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.sym.Name;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
+
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -14,9 +18,11 @@ import javax.validation.constraints.*;
  * Event
  */
 @Validated
+@Table("event")
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-01-28T17:34:25.877+05:30[Asia/Calcutta]")
 public class Event   {
   @JsonProperty("base_location")
+  @Column("baselocation")
   private String baseLocation = null;
 
   @JsonProperty("event_date")

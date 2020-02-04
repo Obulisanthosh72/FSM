@@ -10,6 +10,9 @@ import com.fms.model.NonParticipated;
 import com.fms.model.Unregistered;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -135,20 +138,15 @@ public interface EventApi {
     @RequestMapping(value = "/event",
         produces = { "*/*" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Event>> getAllEvents() {
+    default Flux<ResponseEntity<List<Event>>> getAllEvents() throws IOException {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\r\n  \"base_location\" : \"base_location\",\r\n  \"pocid\" : \"pocid\",\r\n  \"total_volunteer_hour\" : 1,\r\n  \"pocname\" : \"pocname\",\r\n  \"rating\" : 5,\r\n  \"lives_impacted\" : 9,\r\n  \"dislikes\" : \"dislikes\",\r\n  \"volunteers\" : 7,\r\n  \"total_volunteers\" : 5,\r\n  \"event_id\" : 0,\r\n  \"venue_address\" : \"venue_address\",\r\n  \"month\" : \"month\",\r\n  \"total_travel_hour\" : 6,\r\n  \"bname\" : \"bname\",\r\n  \"event_date\" : \"2000-01-23\",\r\n  \"council_name\" : \"council_name\",\r\n  \"event_name\" : \"event_name\",\r\n  \"pocnumber\" : \"pocnumber\",\r\n  \"event_status\" : \"event_status\",\r\n  \"likes\" : \"likes\",\r\n  \"avgrating\" : 2,\r\n  \"ovlhrs\" : \"ovlhrs\"\r\n}, {\r\n  \"base_location\" : \"base_location\",\r\n  \"pocid\" : \"pocid\",\r\n  \"total_volunteer_hour\" : 1,\r\n  \"pocname\" : \"pocname\",\r\n  \"rating\" : 5,\r\n  \"lives_impacted\" : 9,\r\n  \"dislikes\" : \"dislikes\",\r\n  \"volunteers\" : 7,\r\n  \"total_volunteers\" : 5,\r\n  \"event_id\" : 0,\r\n  \"venue_address\" : \"venue_address\",\r\n  \"month\" : \"month\",\r\n  \"total_travel_hour\" : 6,\r\n  \"bname\" : \"bname\",\r\n  \"event_date\" : \"2000-01-23\",\r\n  \"council_name\" : \"council_name\",\r\n  \"event_name\" : \"event_name\",\r\n  \"pocnumber\" : \"pocnumber\",\r\n  \"event_status\" : \"event_status\",\r\n  \"likes\" : \"likes\",\r\n  \"avgrating\" : 2,\r\n  \"ovlhrs\" : \"ovlhrs\"\r\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
+                return Flux.just(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
             }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default EventApi interface so no example is generated");
         }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return Flux.just(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
     }
 
 
